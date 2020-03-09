@@ -3,7 +3,7 @@ import React from 'react';
 import SpotifyWebApi from 'spotify-web-api-js';
 const spotifyApi = new SpotifyWebApi();
 
-export default class TestPage extends React.Component {
+export default class Home extends React.Component {
   constructor() {
     super();
     const params = this.getHashParams();
@@ -30,7 +30,6 @@ export default class TestPage extends React.Component {
   getNowPlaying() {
     spotifyApi.getMyCurrentPlaybackState()
       .then((response) => {
-        console.log("response is", response);
         this.setState({
           nowPlaying: {
             name: response.item.name,
@@ -42,7 +41,7 @@ export default class TestPage extends React.Component {
   render() {
     return (
       <div className="App">
-        <a href='http://localhost:8888' > Login to Spotify </a>
+        <a href='http://localhost:8888/login' > Login to Spotify </a>
         <div>
           Now Playing: {this.state.nowPlaying.name}
         </div>
