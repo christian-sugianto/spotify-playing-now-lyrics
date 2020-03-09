@@ -41,7 +41,9 @@ export default class Home extends React.Component<Props, State> {
           Now Playing: {this.state.nowPlaying.name}
         </div>
         <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} alt="Now Playing Album Art" />
+          {this.state.nowPlaying.albumArt &&
+            <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} alt="Now Playing Album Art" />
+          }
         </div>
         {this.state.loggedIn &&
           <button onClick={() => this.getNowPlaying()}>
