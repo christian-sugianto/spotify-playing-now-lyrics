@@ -23,7 +23,8 @@ class SpotifyService {
   }
 
   getMyCurrentPlaybackState = async () => {
-    await spotifyApi.getMyCurrentPlaybackState();
+    const response = await spotifyApi.getMyCurrentPlaybackState();
+    return response;
   }
 }
 

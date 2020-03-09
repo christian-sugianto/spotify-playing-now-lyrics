@@ -1,9 +1,20 @@
 import React from 'react';
-import { spotifyService } from '../services/spotify/spotifyService';
+import { spotifyService } from '../services/spotify/SpotifyService';
 
-export default class Home extends React.Component {
-  constructor() {
-    super();
+interface Props {
+}
+
+interface State {
+  loggedIn: boolean,
+  nowPlaying: {
+    name: string,
+    albumArt: string
+  }
+}
+
+export default class Home extends React.Component<Props, State> {
+  constructor(props: {}) {
+    super(props);
     const params = spotifyService.getHashParams();
     const token = spotifyService.setToken(params);
     this.state = {
@@ -12,13 +23,15 @@ export default class Home extends React.Component {
     }
   }
   async getNowPlaying() {
-    const response = await spotifyService.getMyCurrentPlaybackState()
-    this.setState({
-      nowPlaying: {
-        name: response.item.name,
-        albumArt: response.item.album.images[0].url
-      }
-    });
+    const response = await spotifyService.getMyCurrentPlaybackState();
+    if (response) {
+      response.item && this.setState({
+        nowPlaying: {
+          name: response.item.name,
+          albumArt: response.item.album.images[0].url
+        }
+      });
+    }
   }
   render() {
     return (
@@ -28,7 +41,7 @@ export default class Home extends React.Component {
           Now Playing: {this.state.nowPlaying.name}
         </div>
         <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
+          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} alt="Now Playing Album Art" />
         </div>
         {this.state.loggedIn &&
           <button onClick={() => this.getNowPlaying()}>
